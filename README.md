@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Retinentia 🧠
 
-## Getting Started
+**Retinentia** is an AI-powered educational index card application designed to help students **memorize vocabulary efficiently and privately**.
 
-First, run the development server:
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run the project locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/adamswed/retinentia-app.git
+cd retinentia-app
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Setup
+
+Create a `.env.local` file in the root directory. This file is already ignored by Git to keep your keys safe.
+
+Use the following template:
+
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+
+# Add other necessary AI/Firebase keys here
+```
+
+---
+
+## 🔥 Firebase Configuration
+
+1. Create a new project in the **Firebase Console**.
+2. Enable **Authentication** and **Firestore**.
+3. Register a **Web App** to obtain your configuration keys.
+
+### Optional (Local HTTPS Development)
+
+If you want HTTPS locally, generate local certificates using **mkcert** and place them in a `/certificates` folder.
+
+This folder should remain **git-ignored**.
+
+---
+
+## ▶️ Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Backend / AI:** Firebase & Google Vertex AI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+Contributions are welcome!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Whether you're fixing a bug or suggesting a new feature, feel free to open a **Pull Request**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Please ensure your code follows the existing **ESLint configuration** before submitting.
+
+---
+
+## 📄 License
+
+Add your license here (MIT, Apache 2.0, etc.).
