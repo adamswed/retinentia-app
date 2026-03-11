@@ -1,0 +1,436 @@
+.card_container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 740px;
+  .card_wrapper {
+    position: relative;
+    width: 100%;
+    height: 578px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    .card_term_side {
+      transform: rotateY(0deg);
+      font-size: 64px;
+    }
+    .card_term_side,
+    .card_definition_side {
+      position: absolute;
+      backface-visibility: hidden;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: inherit;
+      height: inherit;
+      overflow: hidden;
+      .card_term_input_wrapper {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+
+        .card_input {
+          width: 550px;
+          border: none;
+          background: transparent;
+          border-bottom: 3px solid #1d3048;
+          font-weight: 400;
+          font-size: 1em;
+          text-align: center;
+          line-height: 1.2;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          border-radius: 0; /* Removes rounded corners on iOS */
+          outline: none; /* Removes the outline on focus */
+          &::placeholder {
+            color: #8895ac;
+            font-style: italic;
+          }
+        }
+        .card_input_normal {
+          font-size: 1em;
+        }
+        .card_input_medium {
+          font-size: 0.55em;
+        }
+        .card_input_small {
+          font-size: 0.35em;
+        }
+        .definition_card_header {
+          width: 100%;
+          height: 5px;
+        }
+      }
+      .definition_container_raised {
+        transform: translateY(-15px);
+      }
+      .definition_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        font-size: 32px;
+        max-width: 84%;
+        gap: 10px;
+        .definition_term_container {
+          padding-left: 17px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          box-sizing: border-box;
+          width: auto;
+          -webkit-hyphens: auto;
+          -moz-hyphens: auto;
+          -ms-hyphens: auto;
+          hyphens: auto;
+          height: 28px;
+          .definition_side_term {
+            font-style: normal;
+            font-weight: 400;
+            text-align: left;
+            color: #1d3048;
+            line-height: 1;
+          }
+          .definition_side_term_icons {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            .definition_side_term_icon {
+              cursor: pointer;
+              border-radius: 50%;
+              transition: box-shadow var(--active_button_transition_duration)
+                ease-in-out;
+            }
+          }
+        }
+
+        .definition_side_term_normal {
+          font-size: 1em;
+        }
+        .definition_side_term_medium {
+          font-size: 0.95em;
+        }
+        .definition_side_term_small {
+          font-size: 0.9em;
+        }
+      }
+
+      .definition_card_footer {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .save_card {
+          cursor: pointer;
+          padding: 10px 10px;
+          width: 154px;
+          height: 40px;
+          background: transparent;
+          border: 1px solid #2d3754;
+          color: #2d3754;
+          border-radius: 12px;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 0px;
+          text-align: center;
+          color: #2d3754;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &:disabled {
+            border-color: #8895ac;
+            color: #8895ac;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    .card_definition_side {
+      transform: rotateY(180deg);
+      justify-content: space-between;
+    }
+    .flip_card_container {
+      position: absolute;
+      width: calc(100% + 100px);
+      height: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 0;
+      .flip_card_icon_container {
+        height: 200px;
+        width: 48px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .flip_card {
+          width: 30px;
+          height: auto;
+          z-index: 2;
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+        }
+      }
+      .flip_card_icon_container_left {
+        align-items: flex-start;
+      }
+      .flip_card_icon_container_right {
+        align-items: flex-end;
+      }
+    }
+  }
+}
+.card_swipe_hint {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.flip_card_pulse {
+  .flip_card {
+    animation: flipCardPulse 0.7s ease-in-out 2;
+  }
+}
+@keyframes flipCardPulse {
+  0% {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0px 0px 14px rgba(100, 180, 255, 0.95)) brightness(1.6);
+  }
+  100% {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+}
+.card_edit_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background:
+    linear-gradient(317.89deg, #1d3048, #536785 103.32%),
+    linear-gradient(317.89deg, #1d3048, #536785 -8.98%);
+  background-size:
+    100vw 100vh,
+    100vw 100vh;
+  background-position: center;
+  z-index: 6;
+  opacity: 0;
+  animation: overlayFadeIn 0.1s ease-out forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.card_deleting {
+  position: relative;
+  animation: cardDeleteAnimation 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+  overflow: hidden;
+  transform-origin: top;
+  pointer-events: none;
+}
+
+@keyframes cardDeleteAnimation {
+  0% {
+    max-height: 600px;
+    opacity: 1;
+    transform: scaleY(1);
+    margin-bottom: 20px;
+  }
+  100% {
+    max-height: 0;
+    opacity: 0;
+    transform: scaleY(0);
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+@media screen and (max-width: 1136px) {
+  .card_container {
+    .card_wrapper {
+      width: 95%;
+      .flip_card_container {
+        width: 100%;
+        .flip_card_icon_container {
+          height: 200px;
+          width: 32px;
+          .flip_card {
+            width: 24px;
+            height: auto;
+            z-index: 2;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 750px) {
+  .card_container_edit {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
+    opacity: 1;
+    animation: cardEditEnter 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes cardEditEnter {
+    from {
+      opacity: 0;
+      top: auto;
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .card_container_edit {
+    z-index: 7;
+  }
+  .card_container {
+    width: auto;
+    min-width: 470px;
+    .card_wrapper {
+      height: 725px;
+      .card_term_side {
+        font-size: 42px;
+        .card_term_input_wrapper {
+          .card_input {
+            width: 345px;
+          }
+        }
+      }
+
+      .card_definition_side {
+        .definition_container_raised {
+          transform: translateY(0);
+        }
+        .definition_container {
+          margin-top: -22px;
+          font-size: 36px;
+          max-width: none;
+          .definition_term_container {
+            height: auto;
+          }
+          .definition_side_term {
+            margin-left: 18px;
+          }
+          .definition_side_term_normal {
+            font-size: 0.75em;
+          }
+          .definition_side_term_medium {
+            font-size: 0.75em;
+          }
+          .definition_side_term_small {
+            font-size: 0.44em;
+          }
+        }
+        .definition_card_footer {
+          width: 100%;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .save_card {
+            width: 88%;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 395px) and (orientation: portrait) {
+  .card_container {
+    width: auto;
+    .card_wrapper {
+      height: 580px;
+      .card_term_side {
+        font-size: 42px;
+        .card_term_input_wrapper {
+          .card_input {
+            width: 320px;
+          }
+        }
+      }
+      .card_definition_side {
+        .definition_container {
+          margin-top: 23px;
+          font-size: 36px;
+          .definition_side_term {
+            margin-left: 13px;
+            line-height: 0.95 !important;
+            &.definition_side_term_normal {
+              font-size: 0.95em;
+            }
+          }
+        }
+        .definition_card_footer {
+          width: 100%;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .save_card {
+            width: 88%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 450px) {
+  .card_container {
+    .card_wrapper {
+      .definition_container {
+        transform: translateY(25px);
+      }
+      .flip_card {
+        transform: translateY(-64px);
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 450px) and (max-width: 675px) and (orientation: landscape) {
+  .card_container {
+    .card_wrapper {
+      .flip_card {
+        transform: translateY(-142px);
+      }
+    }
+  }
+}

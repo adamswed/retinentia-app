@@ -1,0 +1,28 @@
+.go_back,
+.go_back_mobile {
+  position: absolute;
+  cursor: pointer;
+  top: 26px;
+  left: 26px;
+}
+.go_back_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 750px) {
+  .go_back_mobile {
+    display: block;
+  }
+  .go_back {
+    display: none;
+  }
+}
+@media screen and (max-width: 395px) and (orientation: portrait) {
+  .go_back_mobile {
+    display: block;
+    top: 15px;
+  }
+  .go_back {
+    display: none;
+  }
+}

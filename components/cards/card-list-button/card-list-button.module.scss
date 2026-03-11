@@ -1,0 +1,106 @@
+.card_icon_wrapper {
+  cursor: pointer;
+  background-color: rgba(29, 48, 72, 0.85);
+  width: 101px;
+  height: 63px;
+  filter: drop-shadow(0px 4px 44px rgba(0, 0, 0, 0.25));
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 3;
+  position: absolute;
+  bottom: 15px;
+  padding-bottom: 6.29px;
+  -webkit-backdrop-filter: blur(13px);
+  backdrop-filter: blur(13px);
+  -webkit-user-select: none;
+  user-select: none;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+  animation: slideIn 0.4s ease-out;
+  .card_icon_container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition:
+      opacity 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
+
+    &.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    &.inactive {
+      opacity: 0;
+      transform: scale(0.9) translateY(5px);
+      pointer-events: none;
+    }
+
+    .card_list_caption {
+      font-size: 11px;
+      color: #e2e3df;
+    }
+  }
+
+  .card_list_mobile_icon {
+    display: none;
+  }
+  .card_list_icon {
+    width: auto;
+  }
+  .add_card_icon {
+    height: auto;
+  }
+  .add_card_mobile_icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 750px), screen and (max-height: 450px) {
+  .card_icon_wrapper {
+    height: 44.24px;
+    width: 71px;
+    padding-bottom: 4.4px;
+
+    .card_list_mobile_icon {
+      display: block;
+    }
+    .card_list_icon {
+      display: none;
+    }
+    .card_icon_container {
+      gap: 2px;
+      .card_list_caption {
+        font-size: 9px;
+      }
+
+      .add_card_mobile_icon {
+        display: block;
+      }
+    }
+
+    .add_card_icon {
+      display: none;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

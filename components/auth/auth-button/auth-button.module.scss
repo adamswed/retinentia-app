@@ -1,0 +1,84 @@
+.auth_button {
+  height: 40px;
+  width: 500px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid #536785;
+  color: #536785;
+  font-size: 20px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .icon {
+    position: absolute;
+    left: 0;
+    margin-left: 13px;
+  }
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes borderRotate {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.glow {
+  background: conic-gradient(
+    from var(--angle),
+    #536785 0deg,
+    #3d8bde 90deg,
+    #5c88a3 180deg,
+    #a453b2 270deg,
+    #536785 360deg
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 5px rgba(96, 83, 133, 0.4));
+  animation: borderRotate 6s linear infinite;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    padding: 1.5px;
+    border-radius: 13px;
+    background: conic-gradient(
+      from var(--angle),
+      transparent 0deg,
+      #a453b2 30deg,
+      #536785 60deg,
+      #3d8bde 90deg,
+      transparent 120deg
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: drop-shadow(0 0 5px rgba(96, 83, 133, 0.6));
+    animation: borderRotate 5s linear infinite;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .auth_button {
+    width: 331px;
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 395px) and (orientation: portrait) {
+  .auth_button {
+    width: 305px;
+    font-size: 14px;
+  }
+}

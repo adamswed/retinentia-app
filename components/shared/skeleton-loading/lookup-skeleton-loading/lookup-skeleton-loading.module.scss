@@ -1,0 +1,33 @@
+.skeleton {
+  height: 65px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  .skeleton_text {
+    opacity: 0.7;
+    animation: skeleton_loading_anim 1s linear infinite alternate;
+    width: 88%;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  .skeleton_text:first-child {
+    margin-bottom: 5px;
+    width: 20%;
+  }
+  .skeleton_text:last-child {
+    margin-bottom: 5px;
+    width: 40%;
+  }
+}
+@keyframes skeleton_loading_anim {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}

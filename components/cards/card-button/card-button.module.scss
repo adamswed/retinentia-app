@@ -1,0 +1,20 @@
+.save_card {
+  cursor: pointer;
+  padding: 10px 10px;
+  width: 154px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #2d3754;
+  color: #2d3754;
+  border-radius: 12px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 0px;
+  text-align: center;
+  color: #2d3754;
+  &:disabled {
+    border-color: #8895ac;
+    color: #8895ac;
+    cursor: not-allowed;
+  }
+}

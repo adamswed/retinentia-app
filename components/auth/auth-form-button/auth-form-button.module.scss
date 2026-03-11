@@ -1,0 +1,30 @@
+.auth_form_button {
+  cursor: pointer;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 12px;
+  border: 1px solid #2d3754;
+  color: #2d3754;
+  font-size: 20px;
+  line-height: 0px;
+  width: 154px;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:disabled {
+    cursor: not-allowed;
+    border: 1px solid #8895ac;
+    color: #8895ac;
+  }
+}
+@media screen and (max-width: 750px) {
+  .auth_form_button {
+    width: 275px;
+  }
+  @media screen and (max-width: 395px) and (orientation: portrait) {
+    .auth_form_button {
+      font-size: 16px;
+    }
+  }
+}

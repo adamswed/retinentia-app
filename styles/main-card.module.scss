@@ -1,0 +1,48 @@
+.card {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  perspective: 1480px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .card_content {
+    position: absolute;
+    transition: transform 0.5s ease-in-out;
+    transform-style: preserve-3d;
+    background: #e2e3df;
+    border-radius: 24px;
+    box-shadow: 0px 4px 90px #1d3048;
+    width: inherit;
+    height: 520px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .card {
+    .card_content {
+      height: 650px;
+      width: 373px;
+    }
+  }
+}
+@media screen and (max-width: 395px) and (orientation: portrait) {
+  .card {
+    .card_content {
+      height: 526px;
+      width: 338px;
+    }
+  }
+}
+@media screen and (max-height: 450px) {
+  .card {
+    .card_content {
+      height: 380px;
+      width: 661px;
+    }
+  }
+}

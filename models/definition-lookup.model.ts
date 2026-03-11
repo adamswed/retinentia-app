@@ -1,0 +1,10 @@
+export enum DEFINITION_LOOKUP {
+  LG_LOOKUP_PREVIEW_LIMIT = 150,
+  MD_LOOKUP_PREVIEW_LIMIT = 140,
+  SM_LOOKUP_PREVIEW_LIMIT = 90,
+}
+export const DEFINITION_LOOKUP_SOURCE = {
+  WIKTIONARY: 'wiktionary',
+  WIKIPEDIA: 'wikipedia',
+  AI: 'ai',
+}

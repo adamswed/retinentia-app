@@ -1,0 +1,33 @@
+.card_controls_container {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  .hide_delete_card_icon {
+    visibility: hidden;
+  }
+  span {
+    padding: 0;
+    line-height: 0;
+    margin: 0;
+    display: inline;
+  }
+  .card_control {
+    cursor: pointer;
+    border-radius: 50%;
+    transition: box-shadow var(--active_button_transition_duration) ease-in-out;
+  }
+}
+@media screen and (max-width: 1136px) {
+  .card_controls_container {
+    left: 11px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .card_controls_container {
+    top: 15px;
+    left: 15px;
+  }
+}

@@ -1,0 +1,81 @@
+.skeleton_loading {
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
+  overflow: hidden;
+
+  .skeleton_card_content {
+    background: #e2e3df;
+    border-radius: 24px;
+    width: inherit;
+    height: 520px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    .skeleton {
+      height: 50%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-around;
+      padding: 24px;
+      .skeleton_buttons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        .skeleton_button {
+          opacity: 0.7;
+          width: 30px;
+          height: 30px;
+          border-radius: 50px;
+          animation: skeleton_loading_anim 1s linear infinite alternate;
+        }
+      }
+      .skeleton_text {
+        opacity: 0.7;
+        animation: skeleton_loading_anim 1s linear infinite alternate;
+        width: 90%;
+        height: 10px;
+        margin-bottom: 5px;
+        border-radius: 2px;
+      }
+
+      .skeleton_text:last-child {
+        margin-bottom: 0;
+        width: 75%;
+      }
+    }
+  }
+}
+.skeleton_loading_scroll {
+  position: fixed;
+  bottom: -81%;
+  top: auto;
+}
+@keyframes skeleton_loading_anim {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .skeleton_loading_scroll {
+    bottom: -76%;
+  }
+}

@@ -1,0 +1,25 @@
+.auth_links_wrapper {
+  width: 300px;
+  .auth_link,
+  span {
+    font-size: 18px;
+    color: #536785;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .auth_links_wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    .auth_link,
+    span {
+      font-size: 14px;
+    }
+    span {
+      display: block;
+      width: 10px;
+      text-align: center;
+    }
+  }
+}
