@@ -6,7 +6,7 @@ import { CardListContext } from '@/context/card-list-context';
 import { useContext } from 'react';
 import Image from 'next/image';
 import deleteCardImg from '@/assets/delete-card.svg';
-import cancelCardEdit from '@/assets/cancel-edit.svg';
+import cancelCardEdit from '@/assets/close-icon.svg';
 import editCard from '@/assets/edit-card.svg';
 import { useMessageModal } from '@/context/message-modal-context';
 import { MessageModalMode } from '@/models/message-modal.model';
@@ -41,7 +41,7 @@ const CardControls: React.FC<Props> = ({ indexCard }) => {
       },
       () => {
         card?.setCardButtonDeleteActive(false);
-      }
+      },
     );
   };
   /**
@@ -71,7 +71,7 @@ const CardControls: React.FC<Props> = ({ indexCard }) => {
       card?.setCardButtonDeleteActive(false);
       modal?.openModal(
         deleteResponse.message ||
-          'An error occurred while deleting the card. Please try again.'
+          'An error occurred while deleting the card. Please try again.',
       );
       return;
     }

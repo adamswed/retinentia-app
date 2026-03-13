@@ -16,6 +16,8 @@
   }
   .card_control {
     cursor: pointer;
+    width: 27px;
+    height: 27px;
     border-radius: 50%;
     transition: box-shadow var(--active_button_transition_duration) ease-in-out;
   }
