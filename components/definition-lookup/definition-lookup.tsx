@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAIDefinition, getDefinition } from '../../actions/definition-lookup';
 import Image from 'next/image';
 import styles from './definition-lookup.module.scss';
-import closeLookupDefinition from '@/assets/close-lookup-panel.svg';
+import closeLookupDefinition from '@/assets/close-icon.svg';
 import { useCard } from '@/context/card-context';
 import {
   parseWikipediaDefinition,
