@@ -43,6 +43,19 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
 2. Enable **Authentication** and **Firestore**.
 3. Register a **Web App** to obtain your configuration keys.
 
+## Wikimedia OAuth Configuration
+
+1. Log into https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose with your Wikimedia account (or create an account).
+2. Access Registration: Navigate to the OAuth Consumer Registration Page at: https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose
+3. Fill Application Details:
+   - Application Name: Give your app a name.
+   - OAuth Version: Select 2.0.
+4. For instant development access: Find the checkbox that reads, "This consumer is for use only by [Your Username]" and check it
+5. Set Permissions: Select the necessary permissions (e.g., * for read-only).
+6. Submit the form.
+7. Obtain Tokens: You will immediately be shown your Consumer Key, Consumer Secret, and Access Token.
+8. Add token values to WIKIMEDIA_CLIENT_ID and WIKIMEDIA_CLIENT_SECRET evnironment variables. 
+
 ### Optional (Local HTTPS Development)
 
 If you want HTTPS locally, generate local certificates using **mkcert** and place them in a `/certificates` folder.
