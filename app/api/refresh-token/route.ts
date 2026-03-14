@@ -17,7 +17,9 @@ const handleRefreshToken = async (request: NextRequest) => {
 
   try {
     // TODO: Add FIREBASE_SERVER_API_KEY to development env variables once confirmed working in production with the existing key
-    const apiKey = process.env.FIREBASE_SERVER_API_KEY || process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+    const apiKey =
+      process.env.FIREBASE_SERVER_API_KEY ||
+      process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
     if (!apiKey) {
       throw new Error('Firebase server API key not configured');
     }
@@ -40,8 +42,14 @@ const handleRefreshToken = async (request: NextRequest) => {
 
     const newToken = json.id_token;
 
-    if (json.error) {
+    if (json.error || !newToken) {
       console.error('[refresh-token] Firebase error:', json.error);
+      const response = NextResponse.redirect(
+        new URL('/?clear_client_session=true', request.url),
+      );
+      response.cookies.delete('firebaseAuthToken');
+      response.cookies.delete('firebaseAuthRefreshToken');
+      return response;
     }
 
     cookieStore.set('firebaseAuthToken', newToken, {
@@ -63,7 +71,12 @@ const handleRefreshToken = async (request: NextRequest) => {
       '[refresh-token] Error stack:',
       _error instanceof Error ? _error.stack : 'No stack',
     );
-    return NextResponse.redirect(new URL('/', request.url));
+    const response = NextResponse.redirect(
+      new URL('/?clear_client_session=true', request.url),
+    );
+    response.cookies.delete('firebaseAuthToken');
+    response.cookies.delete('firebaseAuthRefreshToken');
+    return response;
   }
 };
 
