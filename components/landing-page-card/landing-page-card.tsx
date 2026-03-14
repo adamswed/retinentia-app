@@ -6,8 +6,17 @@ import logo from '@/assets/tagline-logo.svg';
 import { useRouter } from 'next/navigation';
 import AuthButton from '../auth/auth-button/auth-button';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useAuth } from '@/context/auth-context';
 
 const LandingPageCard = () => {
+  const auth = useAuth();
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('clear_client_session')) {
+      auth?.logout();
+    }
+  }, []);
   const router = useRouter();
   const onStart = () => {
     router.push('/welcome');
