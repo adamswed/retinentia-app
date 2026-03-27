@@ -14,7 +14,7 @@
     "@upstash/redis": "^1.35.8",
     "firebase": "^11.2.0",
     "firebase-admin": "^13.2.0",
-    "jose": "^6.0.10",
+    "jose": "^6.2.2",
     "next": "^16.1.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
