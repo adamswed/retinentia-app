@@ -96,7 +96,7 @@ const CardContainer: React.FC<Props> = ({ indexCard, cardList }) => {
         <div
           className={`${styles.card_wrapper} ${
             card?.cardDeleting ? styles.card_deleting : ''
-          }`}
+          } ${card?.cardTurnedToDefinition ? styles.flipped : ''}`}
         >
           <MainCard
             cardRef={card?.cardRef}
