@@ -52,7 +52,8 @@ const handleRefreshToken = async (request: NextRequest) => {
       return response;
     }
 
-    cookieStore.set('firebaseAuthToken', newToken, {
+    const redirectResponse = NextResponse.redirect(new URL(path, request.url));
+    redirectResponse.cookies.set('firebaseAuthToken', newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
@@ -60,7 +61,7 @@ const handleRefreshToken = async (request: NextRequest) => {
       maxAge: 60 * 60,
     });
 
-    return NextResponse.redirect(new URL(path, request.url));
+    return redirectResponse;
   } catch (_error) {
     console.error('[refresh-token] Error during token refresh:', _error);
     console.error(
