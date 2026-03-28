@@ -6,6 +6,11 @@
 
 ## 🚀 Getting Started
 
+### Prerequisites
+
+- **Node.js**: Version 20.x or higher is required. We recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your versions.
+- **npm**: Version 10.x or higher.
+
 Follow these steps to run the project locally.
 
 ### 1. Clone the Repository
@@ -51,10 +56,10 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
    - Application Name: Give your app a name.
    - OAuth Version: Select 2.0.
 4. For instant development access: Find the checkbox that reads, "This consumer is for use only by [Your Username]" and check it
-5. Set Permissions: Select the necessary permissions (e.g., * for read-only).
+5. Set Permissions: Select the necessary permissions (e.g., \* for read-only).
 6. Submit the form.
 7. Obtain Tokens: You will immediately be shown your Consumer Key, Consumer Secret, and Access Token.
-8. Add token values to WIKIMEDIA_CLIENT_ID and WIKIMEDIA_CLIENT_SECRET evnironment variables. 
+8. Add token values to WIKIMEDIA_CLIENT_ID and WIKIMEDIA_CLIENT_SECRET evnironment variables.
 
 ### Optional (Local HTTPS Development)
 
