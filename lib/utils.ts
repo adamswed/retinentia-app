@@ -34,18 +34,27 @@ export const parseWiktionaryDefinition = (jsonString: string) => {
   try {
     const data = JSON.parse(jsonString);
     const sections: { heading: string; content: string }[] = [];
-
     // Strip HTML tags helper
     const stripHtml = (html: string) => {
-      return html
-        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '') // Remove style tags and content
-        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '') // Remove script tags and content
-        .replace(/<[^>]*>/g, '') // Remove remaining HTML tags
-        .replace(/&nbsp;/g, ' ') // Replace &nbsp; with space
-        .replace(/&amp;/g, '&')
+      // Loop until no more tags can be removed — prevents crafted inputs
+      // like <scr<script>ipt> from surviving a single-pass strip
+      let result = html;
+      let prev: string;
+      do {
+        prev = result;
+        result = result
+          .replace(/<style[^>]*>[\s\S]*?<\/style\s*>/gi, '') // Remove style tags and content
+          .replace(/<script[^>]*>[\s\S]*?<\/script\s*>/gi, '') // Remove script tags and content
+          .replace(/<[^>]*>/g, ''); // Remove remaining HTML tags
+      } while (result !== prev);
+      // Remove any dangling tag openers without a closing > (e.g. <script or <style with no >)
+      result = result.replace(/<(script|style)[^>]*/gi, '');
+      return result
+        .replace(/&nbsp;/g, ' ')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&')
         .trim();
     };
 
