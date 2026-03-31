@@ -8,6 +8,7 @@ import { AUTH_BUTTON_OPTION } from '@/models/sign-in.model';
 import { useMessageModal } from '@/context/message-modal-context';
 import signIn from '@/assets/sign-in-icon.svg';
 import googleSignIn from '@/assets/google-sign-in.svg';
+import githubSignIn from '@/assets/github-sign-in.svg';
 import SignUp from '@/assets/sign-up-icon.svg';
 import Link from 'next/link';
 
@@ -17,7 +18,7 @@ const SignInPage = () => {
   const router = useRouter();
   const auth = useAuth();
   const modal = useMessageModal();
-  const handleClick = async () => {
+  const handleGoogleClick = async () => {
     setLoadingProvider(AUTH_BUTTON_OPTION.GOOGLE);
     try {
       await auth?.loginWithGoogle();
@@ -27,6 +28,26 @@ const SignInPage = () => {
       modal?.openModal(
         'An error occurred while signing in with Google. Please try again.',
       );
+      setLoadingProvider(null);
+    }
+  };
+  const handleGitHubClick = async () => {
+    setLoadingProvider(AUTH_BUTTON_OPTION.GITHUB);
+    try {
+      await auth?.loginWithGitHub();
+      router.refresh();
+      router.push('/main');
+    } catch (error) {
+      const email = (error as { customData?: { email?: string } })?.customData?.email;
+      if ((error as { code?: string })?.code === 'auth/account-exists-with-different-credential' && email) {
+        modal?.openModal(
+          `${email} is already registered via Google. Please sign in with Google instead.`,
+        );
+      } else {
+        modal?.openModal(
+          'An error occurred while signing in with GitHub. Please try again.',
+        );
+      }
       setLoadingProvider(null);
     }
   };
@@ -43,11 +64,19 @@ const SignInPage = () => {
       <div className='auth_form_container'>
         <AuthButton
           loading={loadingProvider === AUTH_BUTTON_OPTION.GOOGLE}
-          onClick={handleClick}
+          onClick={handleGoogleClick}
           iconSrc={googleSignIn}
           iconAlt='Sign in to Google icon'
         >
           Google
+        </AuthButton>
+        <AuthButton
+          loading={loadingProvider === AUTH_BUTTON_OPTION.GITHUB}
+          onClick={handleGitHubClick}
+          iconSrc={githubSignIn}
+          iconAlt='Sign in with GitHub icon'
+        >
+          GitHub
         </AuthButton>
         <AuthButton
           loading={loadingProvider === AUTH_BUTTON_OPTION.EMAIL}

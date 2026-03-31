@@ -2,6 +2,7 @@
 
 import { auth } from '@/firebase/client';
 import {
+  GithubAuthProvider,
   GoogleAuthProvider,
   ParsedToken,
   signInWithEmailAndPassword,
@@ -15,6 +16,7 @@ type AuthContextType = {
   currentUser: User | null;
   logout: () => Promise<void>;
   loginWithGoogle: () => Promise<void>;
+  loginWithGitHub: () => Promise<void>;
   customClaims: ParsedToken | null;
   loginWithEmail: (email: string, password: string) => Promise<void>;
 };
@@ -99,6 +101,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   /**
+   * Signs in the user with GitHub authentication.
+   * If the email already exists under a different provider, links the GitHub
+   * credential to the existing account automatically.
+   */
+  const loginWithGitHub = async () => {
+    createLoginPromise();
+    const provider = new GithubAuthProvider();
+    await signInWithPopup(auth, provider);
+    await waitForLoginPromise();
+  };
+
+  /**
    * Signs in the user with email and password authentication.
    *
    * @param email - User's email address.
@@ -116,6 +130,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         currentUser,
         logout,
         loginWithGoogle,
+        loginWithGitHub,
         customClaims,
         loginWithEmail,
       }}
