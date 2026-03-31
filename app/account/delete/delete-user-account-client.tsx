@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   EmailAuthProvider,
+  GithubAuthProvider,
   GoogleAuthProvider,
   deleteUser,
   reauthenticateWithCredential,
@@ -35,6 +36,9 @@ const DeleteUserAccountClient = () => {
   const isPasswordProvider = user?.providerData.find(
     (provider) => provider.providerId === 'password',
   );
+  const isGitHubProvider =
+    !isPasswordProvider &&
+    user?.providerData.find((provider) => provider.providerId === 'github.com');
   const {
     register,
     handleSubmit,
@@ -85,6 +89,27 @@ const DeleteUserAccountClient = () => {
     }
   };
 
+  const handleDeleteGitHubUser = async () => {
+    if (!auth?.currentUser) return;
+    setLoadingProvider(AUTH_BUTTON_OPTION.GITHUB);
+    try {
+      const provider = new GithubAuthProvider();
+      await reauthenticateWithPopup(auth.currentUser, provider);
+
+      const response = await deleteUserData();
+      if (response?.error) {
+        setLoadingProvider(null);
+        modal?.openModal(response.message || 'Error deleting account data.');
+        return;
+      }
+      deleteUserAndRemoveToken();
+    } catch (error) {
+      setLoadingProvider(null);
+      console.error('Error deleting GitHub user:', error);
+      modal?.openModal('Could not delete your account. Please try again.');
+    }
+  };
+
   const deleteUserAccount = async (
     data: z.infer<typeof deleteAccountSchema>,
   ) => {
@@ -124,6 +149,8 @@ const DeleteUserAccountClient = () => {
       () => {
         if (isPasswordProvider) {
           deleteUserAccount(data);
+        } else if (isGitHubProvider) {
+          handleDeleteGitHubUser();
         } else {
           handleDeleteGoogleUser();
         }
@@ -172,7 +199,10 @@ const DeleteUserAccountClient = () => {
               </section>
               <div className='google-delete-button-container'>
                 <AuthButton
-                  loading={loadingProvider === AUTH_BUTTON_OPTION.GOOGLE}
+                  loading={
+                    loadingProvider === AUTH_BUTTON_OPTION.GOOGLE ||
+                    loadingProvider === AUTH_BUTTON_OPTION.GITHUB
+                  }
                 >
                   Delete Account
                 </AuthButton>

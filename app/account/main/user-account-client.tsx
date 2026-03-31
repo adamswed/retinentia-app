@@ -34,14 +34,18 @@ const UserAccountClient = () => {
   return (
     <MainCard>
       <div className='auth_form_container'>
-        {user?.displayName && user?.email && (
+        {(user?.displayName || user?.email) && (
           <div className='auth_user_info'>
-            <h3 title={user.displayName.length > 27 ? user?.displayName : ''}>
-              {user.displayName}
-            </h3>
-            <h3 title={user.email.length > 27 ? user?.email : ''}>
-              {user?.email}
-            </h3>
+            {user?.displayName && (
+              <h3 title={user.displayName.length > 27 ? user.displayName : ''}>
+                {user.displayName}
+              </h3>
+            )}
+            {user?.email && (
+              <h3 title={user.email.length > 27 ? user.email : ''}>
+                {user.email}
+              </h3>
+            )}
           </div>
         )}
 
