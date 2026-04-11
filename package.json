@@ -15,7 +15,7 @@
     "firebase": "^11.2.0",
     "firebase-admin": "^13.2.0",
     "jose": "^6.0.10",
-    "next": "^16.1.7",
+    "next": "^16.2.3",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-google-recaptcha-v3": "^1.11.0",
