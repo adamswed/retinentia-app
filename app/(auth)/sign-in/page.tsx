@@ -24,7 +24,13 @@ const SignInPage = () => {
       await auth?.loginWithGoogle();
       router.refresh();
       router.push('/main');
-    } catch (_error) {
+    } catch (error) {
+      const code = (error as { code?: string })?.code;
+      // Suppress modal and stop loading if popup closed by user
+      if (code === 'auth/popup-closed-by-user') {
+        setLoadingProvider(null);
+        return;
+      }
       modal?.openModal(
         'An error occurred while signing in with Google. Please try again.',
       );
@@ -38,8 +44,14 @@ const SignInPage = () => {
       router.refresh();
       router.push('/main');
     } catch (error) {
+      const code = (error as { code?: string })?.code;
       const email = (error as { customData?: { email?: string } })?.customData?.email;
-      if ((error as { code?: string })?.code === 'auth/account-exists-with-different-credential' && email) {
+      // Handle popup closed by user: do not show modal, just stop loading
+      if (code === 'auth/popup-closed-by-user') {
+        setLoadingProvider(null);
+        return;
+      }
+      if (code === 'auth/account-exists-with-different-credential' && email) {
         modal?.openModal(
           `${email} is already registered via Google. Please sign in with Google instead.`,
         );
