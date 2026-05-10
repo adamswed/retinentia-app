@@ -1,4 +1,6 @@
-# Retinentia App — Claude Code Context
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Overview
 A Next.js flashcard/index card application. Users create, flip, edit, and delete
@@ -30,7 +32,7 @@ Vertex AI and Wikipedia/Wiktionary lookups.
       api/            # Route handlers: /api/consent, /api/refresh-token
       main/           # Main app page (index card view)
       welcome/        # Welcome/onboarding page
-    components/       # All UI components, grouped by feature
+    components/       # UI components grouped by feature: auth/, cards/, definition-lookup/, landing-page-card/, shared/
     context/          # React Context providers (see State Management below)
     firebase/
       client.ts       # Firebase client SDK init
@@ -38,17 +40,33 @@ Vertex AI and Wikipedia/Wiktionary lookups.
       vertex.ts       # Vertex AI client
     lib/
       constants.ts    # App-wide constants (MAX_INDEX_CARDS=300, quotas, versioned dates)
-      utils.ts        # Shared utility functions
-      wikimedia/      # Wikimedia API auth
-    models/           # TypeScript interfaces and types
-      index-cards.model.ts  # IndexCard, InitialState, ReducerAction, CardContext types
-      actions.model.ts      # CARD_ACTIONS enum for useReducer
+      utils.ts        # Shared utilities: parseWikipediaDefinition, parseWiktionaryDefinition, detectIsMobile, detectIsSafariDesktop
+      wikimedia/      # Wikimedia API auth + Upstash Redis token caching
+    models/           # TypeScript interfaces: index-cards, index-card-list, card-form, actions, definition-lookup, message-modal, sign-in
     validation/
       xss-config.ts   # XSS sanitizers: sanitizePlainText(), sanitizeQuillContent()
       indexCard.ts    # Zod schema for card data
       registerUser.ts # Zod schema for registration
       account.ts      # Zod schema for account updates
     styles/           # Global styles and shared SASS
+    proxy.ts          # Next.js middleware (route protection + token refresh logic)
+
+## Routing & Middleware
+`proxy.ts` is the Next.js middleware. It:
+- Protects `/main` and `/account/*` — redirects unauthenticated users to `/`
+- Redirects authenticated users away from auth pages (sign-in, sign-up, forgot-password)
+- Checks token expiry via `jose.decodeJwt()` — if token expires within 5 minutes, redirects through `/api/refresh-token?redirect=<dest>` before serving the page
+- Root path `/` redirects authenticated users to `/main`
+
+Auth state lives in **httpOnly cookies** (`firebaseAuthToken`, `firebaseAuthRefreshToken`), not localStorage. The `/api/refresh-token` route handler sets these cookies and is the only place tokens are written.
+
+## Server Actions Pattern
+All files in `actions/` follow this pattern:
+- `'use server'` at top of file
+- Each action calls an internal `verifyToken(authToken)` helper that calls `auth.verifyIdToken()` — if it throws, the action returns early with `{ error: true, message: '...' }`
+- Return type is always `{ error: boolean; message: string }` (the `ErrorMessage` type from models)
+- XSS-sanitize all user input before any Firestore write: plain text (terms) via `sanitizePlainText()`, rich text (definitions) via `sanitizeQuillContent()`
+- Server action files: `card-list.ts`, `index-card.ts`, `user-account.ts`, `register.ts`, `definition-lookup.ts`, `user-auth.ts`
 
 ## State Management
 The app uses React Context + useReducer for card list state and useState for UI state.
@@ -73,14 +91,26 @@ There are 5 active context providers:
 - Pattern: all server actions accept `authToken: string` and call `auth.verifyIdToken()`
 
 ## Security Rules — Do Not Change Without Careful Review
-- `validation/xss-config.ts` — All card input is sanitized before Firestore writes
+- `validation/xss-config.ts` — All card input is sanitized before Firestore writes. Plain text uses a strict no-whitelist xss config; Quill rich text allows specific HTML tags and `ql-*`/`quill-*` CSS classes.
 - ReCAPTCHA v3 is required on registration (do not remove `recaptcha-provider.tsx`)
 - Token verification must remain on every server action in `actions/`
 - `jose` library is used for JWT handling in API routes
 
+## Environment Variables
+**Firebase Client (exposed to browser):**
+`NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`, `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`, `NEXT_PUBLIC_FIREBASE_APPCHECK_DEBUG_TOKEN` (dev only)
+
+**Firebase Admin / Vertex AI (server only):**
+`FIREBASE_PROJECT_ID`, `FIREBASE_PRIVATE_KEY_ID`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_CLIENT_ID`, `FIREBASE_CLIENT_CERT_URL`
+
+**Other server-side:**
+`RECAPTCHA_SECRET_KEY`, `WIKIMEDIA_CLIENT_ID`, `WIKIMEDIA_CLIENT_SECRET`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
+
+Vertex AI reuses the Firebase Admin credentials — no separate Vertex env vars needed.
+
 ## Key Constants (`lib/constants.ts`)
 - `MAX_INDEX_CARDS = 300` — hard cap per user
-- `MAX_DAILY_AI_DEFINITION_QUOTA = 300` — Vertex AI daily limit
+- `MAX_DAILY_AI_DEFINITION_QUOTA = 300` — Vertex AI daily limit, tracked in Firestore
 - `TERMS_VERSION` / `PRIVACY_VERSION` — used for consent tracking
 
 ## Coding Conventions
