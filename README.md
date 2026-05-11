@@ -61,6 +61,16 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
 7. Obtain Tokens: You will immediately be shown your Consumer Key, Consumer Secret, and Access Token.
 8. Add token values to WIKIMEDIA_CLIENT_ID and WIKIMEDIA_CLIENT_SECRET evnironment variables.
 
+### 4. Cypress Environment Setup
+
+Copy the example file and fill in real values for a dedicated Firebase test account:
+
+```bash
+cp cypress.env.example.json cypress.env.json
+```
+
+`cypress.env.json` is git-ignored. Never commit real credentials.
+
 ### Optional (Local HTTPS Development)
 
 If you want HTTPS locally, generate local certificates using **mkcert** and place them in a `/certificates` folder.
