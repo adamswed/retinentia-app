@@ -32,6 +32,8 @@ function getAdminFirestore() {
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3000',
+    video: true,
+    experimentalModifyObstructiveThirdPartyCode: true,
     setupNodeEvents(on, config) {
       on('task', {
         async clearTestUserCards() {

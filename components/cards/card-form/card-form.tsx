@@ -334,7 +334,7 @@ const CardForm: React.FC<Props> = ({ indexCard, cardList }) => {
           {(!cardList || (cardList && card?.cardEditMode)) && !card?.lookup && (
             // TODO: Use CardButton component her
             <button
-              data-cy='card-save-button'
+              data-cy={`card-${card?.cardEditMode ? 'update' : 'save'}-button`}
               disabled={definitionLetterCount < 2 || loading}
               className={styles.save_card}
               onClick={

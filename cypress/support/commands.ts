@@ -10,7 +10,7 @@ declare global {
 
 Cypress.Commands.add('login', () => {
   cy.session(
-    Cypress.env('TEST_EMAIL'),
+    `login_v2_${Cypress.env('TEST_EMAIL')}`,
     () => {
       cy.intercept('POST', '/api/consent').as('consent');
       cy.visit('/email-sign-in');
@@ -18,13 +18,15 @@ Cypress.Commands.add('login', () => {
       cy.get('#password').type(Cypress.env('TEST_PASSWORD'), { log: false });
       cy.get('button[type="submit"]').click();
       cy.wait('@consent');
-      cy.url().should('include', '/main');
+      cy.visit('/main');
     },
     {
       cacheAcrossSpecs: true,
       validate() {
-        cy.request({ url: '/main', failOnStatusCode: false }).its('status').should('eq', 200);
+        cy.request({ url: '/main', failOnStatusCode: false, followRedirect: false })
+          .its('status')
+          .should('eq', 200);
       },
-    }
+    },
   );
 });

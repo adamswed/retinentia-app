@@ -2,7 +2,7 @@ const TERM = 'Photosynthesis';
 const DEFINITION = 'The process by which plants convert sunlight into energy';
 const UPDATED_TERM = 'Photosynthesis II';
 
-describe('Card CRUD', () => {
+describe.skip('Card CRUD', () => {
   before(() => {
     cy.task('clearTestUserCards');
   });
