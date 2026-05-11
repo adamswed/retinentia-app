@@ -1,14 +1,39 @@
+export {};
+
 const TERM = 'Photosynthesis';
 const DEFINITION = 'The process by which plants convert sunlight into energy';
 const UPDATED_TERM = 'Photosynthesis II';
+let authToken = '';
+let refreshToken = '';
 
-describe.skip('Card CRUD', () => {
+
+describe('Card CRUD', () => {
   before(() => {
     cy.task('clearTestUserCards');
+    cy.login();
+    cy.getCookie('firebaseAuthToken').then((c) => {
+      authToken = c?.value ?? '';
+    });
+    cy.getCookie('firebaseAuthRefreshToken').then((c) => {
+      refreshToken = c?.value ?? '';
+    });
   });
 
   beforeEach(() => {
-    cy.login();
+    cy.setCookie('firebaseAuthToken', authToken, {
+      httpOnly: true,
+      secure: false,
+      path: '/',
+      sameSite: 'lax',
+      domain: 'localhost',
+    });
+    cy.setCookie('firebaseAuthRefreshToken', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      path: '/',
+      sameSite: 'lax',
+      domain: 'localhost',
+    });
     cy.visit('/main');
   });
 
@@ -39,7 +64,7 @@ describe.skip('Card CRUD', () => {
     cy.get('[data-cy="card-definition-editor"] .ql-editor').realClick();
     cy.get('[data-cy="card-definition-editor"] .ql-editor').should('be.focused');
     cy.intercept('POST', '/main').as('cardUpdate');
-    cy.contains('[data-cy="card-save-button"]', 'Update').realClick();
+    cy.contains('[data-cy="card-update-button"]', 'Update').click({force: true});
     cy.wait('@cardUpdate');
 
     cy.get('[data-cy="card-term-input"][readonly]').should('have.value', UPDATED_TERM);
