@@ -95,7 +95,7 @@ const CardControls: React.FC<Props> = ({ indexCard }) => {
   };
   return (
     <div className={styles.card_controls_container}>
-      <span onClick={handleonEditCard}>
+      <span data-cy='card-edit-button' onClick={handleonEditCard}>
         {card?.cardEditMode ? (
           <Image
             className={`${styles.card_control} index-card-button-active`}
@@ -111,6 +111,7 @@ const CardControls: React.FC<Props> = ({ indexCard }) => {
         )}
       </span>
       <Image
+        data-cy='card-delete-button'
         className={`${styles.card_control} ${
           card?.cardButtonDeleteActive ? 'index-card-button-active' : ''
         } ${card?.cardEditMode ? styles.hide_delete_card_icon : ''}`}

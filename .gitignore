@@ -33,3 +33,6 @@ yarn-error.log*
 
 # Testing
 /coverage
+cypress.env.json
+cypress/screenshots
+cypress/videos

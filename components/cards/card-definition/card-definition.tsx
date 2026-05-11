@@ -139,6 +139,7 @@ const CardDefinition: React.FC<CardDefinitionProps> = ({
         } ${getContainerPositionClass(term.length)}`}
       >
         <h2
+          data-cy='definition-side-term'
           className={`${
             cardContainerStyles.definition_side_term
           } ${getFontSizeClass(term.length)}`}
@@ -182,6 +183,7 @@ const CardDefinition: React.FC<CardDefinitionProps> = ({
         </div>
       )}
       <div
+        data-cy='card-definition-editor'
         className={`${styles.card_textarea}`}
         onTouchStart={() => onTouchTextEditor(true)}
         onTouchMove={() => onTouchTextEditor(true)}

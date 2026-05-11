@@ -91,6 +91,7 @@ export const MessageModalProvider = ({
                     Cancel
                   </button>
                   <button
+                    data-cy='modal-delete-confirm'
                     className='delete-button'
                     onClick={() => {
                       if (onConfirm) {

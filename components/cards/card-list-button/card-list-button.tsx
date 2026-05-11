@@ -19,7 +19,7 @@ const CardListButton: React.FC<Props> = ({
   return (
     <>
       {(indexCardsLength ?? 0) > 0 && (
-        <div className={style.card_icon_wrapper} onClick={() => showCardList()}>
+        <div data-cy='card-list-toggle' className={style.card_icon_wrapper} onClick={() => showCardList()}>
           <div
             className={`${style.card_icon_container} ${
               !indexCardListMode ? style.active : style.inactive

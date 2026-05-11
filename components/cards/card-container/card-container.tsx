@@ -124,6 +124,7 @@ const CardContainer: React.FC<Props> = ({ indexCard, cardList }) => {
                   />
                 </div>
                 <div
+                  data-cy='card-flip-right'
                   className={`${styles.flip_card_icon_container} ${styles.flip_card_icon_container_right} ${card?.showOrientationTour ? styles.flip_card_pulse : ''}`}
                   onClick={() => flipCard(true)}
                 >
