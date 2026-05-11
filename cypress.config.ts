@@ -48,6 +48,13 @@ export default defineConfig({
 
           return null;
         },
+
+        async seedTestCard({ term, definition }: { term: string; definition: string }) {
+          const uid = config.env.TEST_USER_UID;
+          const firestore = getAdminFirestore();
+          await firestore.collection(`users/${uid}/indexCards`).add({ term, definition });
+          return null;
+        },
       });
     },
   },

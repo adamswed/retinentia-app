@@ -139,6 +139,7 @@ const CardDefinition: React.FC<CardDefinitionProps> = ({
         } ${getContainerPositionClass(term.length)}`}
       >
         <h2
+          data-cy='definition-side-term'
           className={`${
             cardContainerStyles.definition_side_term
           } ${getFontSizeClass(term.length)}`}
