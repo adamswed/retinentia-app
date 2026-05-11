@@ -1,8 +1,35 @@
+let authToken = '';
+let refreshToken = '';
+
 describe('Card Flip', () => {
   const TERM = 'Mitosis';
-  beforeEach(() => {
+
+  before(() => {
     cy.task('clearTestUserCards');
     cy.login();
+    cy.getCookie('firebaseAuthToken').then((c) => {
+      authToken = c?.value ?? '';
+    });
+    cy.getCookie('firebaseAuthRefreshToken').then((c) => {
+      refreshToken = c?.value ?? '';
+    });
+  });
+
+  beforeEach(() => {
+    cy.setCookie('firebaseAuthToken', authToken, {
+      httpOnly: true,
+      secure: false,
+      path: '/',
+      sameSite: 'lax',
+      domain: 'localhost',
+    });
+    cy.setCookie('firebaseAuthRefreshToken', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      path: '/',
+      sameSite: 'lax',
+      domain: 'localhost',
+    });
     cy.visit('/main');
   });
 
