@@ -182,6 +182,7 @@ const CardDefinition: React.FC<CardDefinitionProps> = ({
         </div>
       )}
       <div
+        data-cy='card-definition-editor'
         className={`${styles.card_textarea}`}
         onTouchStart={() => onTouchTextEditor(true)}
         onTouchMove={() => onTouchTextEditor(true)}

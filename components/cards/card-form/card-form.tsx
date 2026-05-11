@@ -301,6 +301,7 @@ const CardForm: React.FC<Props> = ({ indexCard, cardList }) => {
           onTouchEnd={() => onTouchTextEditor(false)}
         >
           <input
+            data-cy='card-term-input'
             className={`${styles.card_input} ${getFontSizeClass(term.length)}`}
             value={term}
             onChange={handleChange}
@@ -333,6 +334,7 @@ const CardForm: React.FC<Props> = ({ indexCard, cardList }) => {
           {(!cardList || (cardList && card?.cardEditMode)) && !card?.lookup && (
             // TODO: Use CardButton component her
             <button
+              data-cy='card-save-button'
               disabled={definitionLetterCount < 2 || loading}
               className={styles.save_card}
               onClick={

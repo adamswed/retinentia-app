@@ -1,5 +1,8 @@
 import { defineConfig } from 'cypress';
+import * as dotenv from 'dotenv';
 import admin from 'firebase-admin';
+
+dotenv.config({ path: '.env.local' });
 import { getApps, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
