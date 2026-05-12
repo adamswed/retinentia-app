@@ -5,7 +5,6 @@ import admin from 'firebase-admin';
 dotenv.config({ path: '.env.local' });
 import { getApps, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { MAX_DAILY_AI_DEFINITION_QUOTA } from './lib/constants';
 
 function getAdminFirestore() {
   const serviceAccount = {
@@ -40,7 +39,7 @@ export default defineConfig({
         async clearTestUserCards() {
           const uid = config.env.TEST_USER_UID;
           const firestore = getAdminFirestore();
-          const collection = firestore.collection(`users/${uid}/indexCards`);
+          const collection = firestore.collection('index-cards').doc(uid).collection('user-cards');
           const docs = await collection.listDocuments();
 
           if (docs.length > 0) {
@@ -55,18 +54,24 @@ export default defineConfig({
         async seedTestCard({ term, definition }: { term: string; definition: string }) {
           const uid = config.env.TEST_USER_UID;
           const firestore = getAdminFirestore();
-          await firestore.collection(`users/${uid}/indexCards`).add({ term, definition });
+          const now = new Date();
+          await firestore.collection('index-cards').doc(uid).collection('user-cards').add({
+            term,
+            definition,
+            created: now,
+            updated: now,
+          });
           return null;
         },
 
-        async setAIQuotaToLimit() {
+        async resetAIQuota() {
           const uid = config.env.TEST_USER_UID;
           const firestore = getAdminFirestore();
           await firestore.collection('users').doc(uid).set(
             {
               quota: {
                 aiDefinition: {
-                  aiDefinitionsUsed: MAX_DAILY_AI_DEFINITION_QUOTA,
+                  aiDefinitionsUsed: 0,
                   lastDefinitionDate: new Date(),
                 },
               },
