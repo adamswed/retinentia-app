@@ -158,6 +158,7 @@ const CardDefinition: React.FC<CardDefinitionProps> = ({
               alt={'Speak term'}
             />
             <Image
+              data-cy='definition-side-term-icon-lookup'
               onClick={toggleDefLookup}
               className={`${cardContainerStyles.definition_side_term_icon} ${
                 card?.lookup && 'index-card-button-active'

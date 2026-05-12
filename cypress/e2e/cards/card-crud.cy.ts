@@ -3,37 +3,16 @@ export {};
 const TERM = 'Photosynthesis';
 const DEFINITION = 'The process by which plants convert sunlight into energy';
 const UPDATED_TERM = 'Photosynthesis II';
-let authToken = '';
-let refreshToken = '';
-
 
 describe('Card CRUD', () => {
   before(() => {
-    cy.task('clearTestUserCards');
     cy.login();
-    cy.getCookie('firebaseAuthToken').then((c) => {
-      authToken = c?.value ?? '';
-    });
-    cy.getCookie('firebaseAuthRefreshToken').then((c) => {
-      refreshToken = c?.value ?? '';
-    });
+    cy.task('clearTestUserCards');
+    cy.getCookie('firebaseAuthToken').then((c) => Cypress.env('_authToken', c?.value ?? ''));
+    cy.getCookie('firebaseAuthRefreshToken').then((c) => Cypress.env('_refreshToken', c?.value ?? ''));
   });
 
   beforeEach(() => {
-    cy.setCookie('firebaseAuthToken', authToken, {
-      httpOnly: true,
-      secure: false,
-      path: '/',
-      sameSite: 'lax',
-      domain: 'localhost',
-    });
-    cy.setCookie('firebaseAuthRefreshToken', refreshToken, {
-      httpOnly: true,
-      secure: false,
-      path: '/',
-      sameSite: 'lax',
-      domain: 'localhost',
-    });
     cy.visit('/main');
   });
 
