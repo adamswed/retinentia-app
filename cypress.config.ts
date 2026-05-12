@@ -5,6 +5,7 @@ import admin from 'firebase-admin';
 dotenv.config({ path: '.env.local' });
 import { getApps, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { MAX_DAILY_AI_DEFINITION_QUOTA } from './lib/constants';
 
 function getAdminFirestore() {
   const serviceAccount = {
@@ -55,6 +56,23 @@ export default defineConfig({
           const uid = config.env.TEST_USER_UID;
           const firestore = getAdminFirestore();
           await firestore.collection(`users/${uid}/indexCards`).add({ term, definition });
+          return null;
+        },
+
+        async setAIQuotaToLimit() {
+          const uid = config.env.TEST_USER_UID;
+          const firestore = getAdminFirestore();
+          await firestore.collection('users').doc(uid).set(
+            {
+              quota: {
+                aiDefinition: {
+                  aiDefinitionsUsed: MAX_DAILY_AI_DEFINITION_QUOTA,
+                  lastDefinitionDate: new Date(),
+                },
+              },
+            },
+            { merge: true },
+          );
           return null;
         },
       });
