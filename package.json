@@ -28,6 +28,9 @@
     "xss": "^1.0.15",
     "zod": "^3.22.4"
   },
+  "overrides": {
+    "fast-xml-builder": ">=1.1.7"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
     "@types/node": "^20.11.30",
