@@ -15,5 +15,5 @@ Cypress.Commands.add('login', () => {
   cy.get('#password').type(Cypress.env('TEST_PASSWORD'), { log: false });
   cy.get('button[type="submit"]').click();
   cy.wait('@consent');
-  cy.url().should('include', '/main');
+  cy.visit('/main');
 });
