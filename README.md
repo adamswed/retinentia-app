@@ -71,6 +71,58 @@ cp cypress.env.example.json cypress.env.json
 
 `cypress.env.json` is git-ignored. Never commit real credentials.
 
+| Key | Description |
+|---|---|
+| `TEST_EMAIL` | Email of the dedicated Firebase test user |
+| `TEST_PASSWORD` | Password of the dedicated Firebase test user |
+| `TEST_USER_UID` | Firestore UID of the test user (found in Firebase Console → Authentication) |
+
+> The test user must already exist in Firebase Auth before running tests. Create one manually in the Firebase Console or via the Admin SDK. Use a dedicated account — tests will delete and modify its Firestore data.
+
+---
+
+## 🧪 Cypress E2E Tests
+
+Tests require the dev server to be running on `http://localhost:3000` and a valid `cypress.env.json`.
+
+### Running Tests
+
+**Interactive mode** (opens the Cypress UI — recommended during development):
+
+```bash
+npm run dev        # in one terminal
+npm run cy:open    # in another terminal
+```
+
+**Headless mode** (runs all tests in Chrome — used in CI):
+
+```bash
+npm run dev        # in one terminal
+npm run cy:run     # in another terminal
+```
+
+### Custom Commands
+
+| Command | Description |
+|---|---|
+| `cy.login()` | Signs in the test user via the email sign-in form and waits for the session cookie to be set |
+
+### Cypress Tasks (via `cypress.config.ts`)
+
+These run server-side via the Firebase Admin SDK to set up and tear down test state:
+
+| Task | Description |
+|---|---|
+| `clearTestUserCards` | Deletes all Firestore cards for the test user |
+| `seedTestCard({ term, definition })` | Creates a single card for the test user |
+| `resetAIQuota` | Resets the AI definition quota counter to 0 in Firestore |
+
+### Notes for Contributors
+
+- **Never use the same account for testing and personal use.** Tests call `clearTestUserCards` in `before()` hooks, which will wipe real card data.
+- Tests that call AI definition lookups (e.g. `ai-quota-limit.cy.ts`) make real Vertex AI requests and count against the daily quota. The `resetAIQuota` task resets the counter before each run.
+- Videos of each run are saved to `cypress/videos/` and screenshots of failures to `cypress/screenshots/`. Both are git-ignored.
+
 ### Optional (Local HTTPS Development)
 
 If you want HTTPS locally, generate local certificates using **mkcert** and place them in a `/certificates` folder.
