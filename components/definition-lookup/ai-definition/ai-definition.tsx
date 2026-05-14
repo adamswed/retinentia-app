@@ -53,7 +53,7 @@ const AiDefinition: React.FC<AiDefinitionProps> = ({
       ) : (
         <>
           {aiDefinition && aiDefinition.length > 0 && (
-            <div className={`${styles.definition_section}`}>
+            <div data-cy="ai-definition-result" className={`${styles.definition_section}`}>
               <div className={styles.definition_main_heading}>
                 <Image
                   className={styles.gemini_icon}
